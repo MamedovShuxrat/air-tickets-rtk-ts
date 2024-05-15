@@ -5,9 +5,11 @@ const Header = () => {
     return (
         <header className="header">
             <div className="container">
-                <div className="wrapper">
-                    <img className="logo" src="./public/plane.svg" alt="plane" />
-                    <h1 className="title">Поиск авиабилетов</h1>
+                <div className="header__inner">
+                    <div className="wrapper">
+                        <img className="logo" src="./public/plane.svg" alt="plane" />
+                        <h1 className="title">Поиск авиабилетов</h1>
+                    </div>
                 </div>
             </div>
         </header>

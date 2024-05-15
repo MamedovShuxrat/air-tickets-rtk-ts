@@ -42,4 +42,11 @@ body {
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
+  border: 1px solid #000;
+}
+
+.page {
+  padding: 0 30px;
+  display: flex;
+  column-gap: 50px;
 }

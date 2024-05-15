@@ -1,0 +1,127 @@
+.btn__wrapper {
+    display: flex;
+    margin-bottom: 30px;
+}
+
+.filter__btn {
+    padding: 18px 50px;
+    border: 1px solid rgb(78, 20, 140);
+
+    background: rgb(232, 235, 242);
+    color: rgb(78, 20, 140);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 19px;
+    cursor: pointer;
+
+    &:nth-child(1) {
+        border-radius: 10px 0px 0px 10px;
+    }
+
+    &:nth-child(3) {
+        border-radius: 0px 10px 10px 0px;
+    }
+
+    &.active {
+        color: rgb(247, 249, 247);
+        background: rgb(78, 20, 140);
+    }
+}
+
+.result__wrapper {
+    display: flex;
+    flex-direction: column;
+    row-gap: 47px;
+}
+
+.result__item {
+    padding: 30px 40px 25px 30px;
+    border-radius: 10px;
+    background: rgb(232, 235, 242);
+}
+
+.title__wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.result__price {
+    color: rgb(78, 20, 140);
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 39px;
+}
+
+.details__wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.from-to__wrapper {
+    display: flex;
+    margin-bottom: 9px;
+    column-gap: 4px;
+}
+
+.from,
+.to,
+.dash {
+    color: rgb(133, 138, 227);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19px;
+    text-transform: uppercase;
+}
+
+.from-time__wrapper {
+    display: flex;
+    column-gap: 4px;
+
+    span {
+        color: rgb(78, 20, 140);
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 19px;
+    }
+}
+
+.on-way,
+.result__transfers {
+    display: flex;
+    flex-direction: column;
+}
+
+.on-way__title,
+.transfers__title {
+    color: rgb(133, 138, 227);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19px;
+    margin-bottom: 9px;
+}
+
+.on-way__time,
+.transfers__desc {
+    color: rgb(78, 20, 140);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 19px;
+
+}
+
+.btn__more {
+    padding: 17px;
+    color: rgb(247, 249, 247);
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 29px;
+    border-radius: 10px;
+    background: rgb(78, 20, 140);
+
+    border: none;
+    display: inline-block;
+    width: 100%;
+    cursor: pointer;
+    margin-top: 50px;
+}

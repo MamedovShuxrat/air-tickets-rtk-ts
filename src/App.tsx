@@ -1,8 +1,10 @@
-import React, { FC } from 'react'
+import React from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { increment, decrement } from './store/slices/slice';
 import { RootState } from './store/store';
 import Header from './components/Header/Header'
+import Sidebar from './components/Sidebar/Sidebar'
+import MainBlock from './components/MainBlock/MainBlock'
 
 
 function App() {
@@ -11,13 +13,15 @@ function App() {
 
   return (
     <>
-      <div>
-        <Header />
-        <h1>Count: {count}</h1>
-        <button onClick={() => dispatch(increment())}>Increment</button>
-        <button onClick={() => dispatch(decrement())}>Decrement</button>
-      </div>
-      <h2>redux + typeScript</h2>
+      <Header />
+      <main >
+        <div className="container">
+          <div className="page">
+            <Sidebar />
+            <MainBlock />
+          </div>
+        </div>
+      </main>
     </>
   )
 }
