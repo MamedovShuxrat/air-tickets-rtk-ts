@@ -1,5 +1,6 @@
 .sidebar {
-    max-width: 272px;
+    width: 272px;
+    min-width: 210px;
     display: flex;
     flex-direction: column;
     gap: 47px;
@@ -26,7 +27,7 @@
 .checkbox__wrapper {
     display: flex;
     // align-items: center;
-    margin-left: 26px;
+    margin-left: 16px;
     margin-bottom: 20px;
     position: relative;
 }
@@ -83,4 +84,51 @@
     font-weight: 500;
     line-height: 19px;
     margin-left: 19px;
+}
+
+@media screen and (max-width:768px) {
+    .sidebar {
+        display: none;
+    }
+
+    .tablet,
+    .transfers {
+        border-radius: 10px;
+        color: rgb(247, 249, 247);
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 24px;
+        display: flex;
+        flex-direction: column;
+
+        .sidebar__title {
+            color: rgb(247, 249, 247);
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 24px;
+        }
+
+        .checkbox__wrapper {
+            margin-left: 0;
+        }
+
+        .checkbox-radio {
+            /* colors/white */
+            // background: rgb(247, 249, 247);
+            border: 1px solid rgb(247, 249, 247);
+        }
+
+        .checkbox-radio:checked::before {
+            background-color: rgb(247, 249, 247);
+        }
+
+        .checkbox__name {
+            color: rgb(247, 249, 247);
+        }
+
+        .checkbox {
+            border: 1px solid rgb(247, 249, 247);
+
+        }
+    }
 }

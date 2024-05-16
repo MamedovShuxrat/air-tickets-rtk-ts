@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 export interface TicketTime {
     startTime: string
@@ -17,29 +17,45 @@ export interface Ticket {
     date: string
     connectionAmount: number | null
 }
-
-
-interface ExampleState {
-    value: number;
-}
-
-const initialState: ExampleState = {
-    value: 0,
+const initialTransferState = {
+    transferFilters: {
+        transfer0: false,
+        transfer1: false,
+        transfer2: false,
+        transfer3: false,
+    },
 };
 
-const exampleSlice = createSlice({
-    name: 'example',
-    initialState,
+interface CompanyPayload {
+    [key: string]: string;
+}
+
+interface TransferFiltersPayload {
+    [key: string]: string | number | boolean;
+}
+
+const companySlice = createSlice({
+    name: 'company',
+    initialState: {} as CompanyPayload,
     reducers: {
-        increment: (state) => {
-            state.value += 1;
-        },
-        decrement: (state) => {
-            state.value -= 1;
+        setCompany: (state, action: PayloadAction<CompanyPayload>) => {
+            return { ...state, ...action.payload };
         },
     },
 });
 
-export const { increment, decrement } = exampleSlice.actions;
+const transferFiltersSlice = createSlice({
+    name: 'transferSlice',
+    initialState: initialTransferState,
+    reducers: {
+        setTransferFilters: (state, action: PayloadAction<TransferFiltersPayload>) => {
+            return { ...state, ...action.payload };
+        },
+    },
+});
 
-export default exampleSlice.reducer;
+export const { setCompany } = companySlice.actions;
+export const { setTransferFilters } = transferFiltersSlice.actions;
+
+export const CompanyReducer = companySlice.reducer;
+export const TransferFiltersReducer = transferFiltersSlice.reducer;

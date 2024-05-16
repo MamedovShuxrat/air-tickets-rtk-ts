@@ -50,3 +50,10 @@ body {
   display: flex;
   column-gap: 50px;
 }
+
+
+@media screen and (max-width:768px) {
+  .page {
+    justify-content: center;
+  }
+}

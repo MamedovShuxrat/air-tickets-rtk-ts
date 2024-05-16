@@ -1,13 +1,38 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './MainBlock.scss'
+import CompanyFilters from '../CompanyFilters/CompanyFilters'
+import TransferFilters from '../TransferFilers/TransferFilters'
 
 const MainBlock = () => {
+    const [isOpen, setIsOpen] = useState(false)
+    const handleOpenClose = () => {
+        setIsOpen(!isOpen)
+    }
     return (
         <div>
             <div className="btn__wrapper">
                 <div className="filter__btn active">Самый дешевый</div>
                 <div className="filter__btn">Самый быстрый</div>
                 <div className="filter__btn">Самый оптимальный</div>
+            </div>
+            <div className="filter__wrapper">
+                <div className="filter__menu">
+                    <div className="filter__lists">
+                        <div className="filter__list">
+                            <span className="filter__item">Любая авиакомпания </span>
+                            <span className="filter__item"> любое кол-во пересадок</span>
+                        </div>
+                        <div className="filter__list">
+                            <span className="filter__item">{isOpen ? 'Закрыть настройки' : 'Открыть настройки'} </span>
+                            <img onClick={handleOpenClose} className='arrow__btn' style={{ transform: isOpen ? 'rotate(180deg)' : 'none' }} src='./public/arrow.svg' alt='arrow' />
+                        </div>
+                    </div>
+                    {isOpen &&
+                        <div className='tablet__wrapper'>
+                            <CompanyFilters className="tablet" />
+                            <TransferFilters className="tablet" />
+                        </div>}
+                </div>
             </div>
             <div className="result__wrapper">
                 <div className="result__item">

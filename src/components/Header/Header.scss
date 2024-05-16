@@ -19,3 +19,13 @@
     width: 100px;
     height: 80px;
 }
+
+@media screen and (max-width:768px) {
+    .title {
+        display: none;
+    }
+
+    .wrapper {
+        justify-content: center;
+    }
+}

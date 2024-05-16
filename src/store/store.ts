@@ -1,13 +1,15 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
-import exampleReducer from './slices/slice'
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { CompanyReducer, TransferFiltersReducer } from './slices/slice';
 
 const rootReducer = combineReducers({
-    example: exampleReducer,
+    Company: CompanyReducer,
+    TransferFilters: TransferFiltersReducer,
+});
 
-})
-
-const store = configureStore({
-    reducer: rootReducer,
-})
 export type RootState = ReturnType<typeof rootReducer>;
-export default store 
+
+const store: ReturnType<typeof configureStore> = configureStore({
+    reducer: rootReducer,
+});
+
+export default store;
