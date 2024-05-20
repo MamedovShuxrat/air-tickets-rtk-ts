@@ -1,4 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import fetchTickets from '../../store/slices/tickets'
+import { RootState } from '../../store/store'
+
 import './MainBlock.scss'
 import CompanyFilters from '../CompanyFilters/CompanyFilters'
 import TransferFilters from '../TransferFilers/TransferFilters'
@@ -8,6 +12,13 @@ const MainBlock = () => {
     const handleOpenClose = () => {
         setIsOpen(!isOpen)
     }
+
+    const dispatch = useDispatch();
+    const { tickets, error, status } = useSelector((state: RootState) => state.tickets);
+
+    useEffect(() => {
+        dispatch(fetchTickets());
+    }, []);
     return (
         <div>
             <div className="btn__wrapper">
@@ -35,9 +46,44 @@ const MainBlock = () => {
                 </div>
             </div>
             <div className="result__wrapper">
-                <div className="result__item">
+
+                <h1>Tickets</h1>
+                {status === 'loading' && <p>Loading...</p>}
+                {status === 'error' && <p>Error: {error}</p>}
+                {status === 'success' &&
+                    tickets.map((ticket) => (
+                        <div className='result__item' key={ticket.id}>
+                            <div className="title__wrapper">
+                                <div className="result__price">{ticket.price} {ticket.currency}</div>
+                                <img className="result__logo" src="./public/pobeda.svg" alt="air-company" />
+                            </div>
+                            <div className="details__wrapper">
+                                <div className="location">
+                                    <div className="from-to__wrapper">
+                                        <span className="from">From: {ticket.from} </span>
+                                        <span className="dash">-</span>
+                                        <span className="to">To: {ticket.to}</span>
+                                    </div>
+                                    <div className="from-time__wrapper">
+                                        <span className="from-time">12:00</span>
+                                        <span className="dash-active">-</span>
+                                        <span className="from-to"> 16:30</span>
+                                    </div>
+                                    <div className="on-way">
+                                        <span className="on-way__title" >В пути</span>
+                                        <span className="on-way__time">{ticket.duration}</span>
+                                    </div>
+                                    <div className="result__transfers">
+                                        <span className="transfers__title">Пересадки</span>
+                                        <span className="transfers__desc">{ticket.connectionAmount}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                {/* <div className="result__item">
                     <div className="title__wrapper">
-                        <div className="result__price">5000 RUB</div>
+                      
                         <img className="result__logo" src="./public/pobeda.svg" alt="air-company" />
                     </div>
                     <div className="details__wrapper">
@@ -62,8 +108,8 @@ const MainBlock = () => {
                             <span className="transfers__desc">1 пересадка</span>
                         </div>
                     </div>
-                </div>
-                <div className="result__item">
+                </div> */}
+                {/* <div className="result__item">
                     <div className="title__wrapper">
                         <div className="result__price">21 500 RUB</div>
                         <img className="result__logo" src="./public/red-wings.svg" alt="air-company" />
@@ -118,7 +164,7 @@ const MainBlock = () => {
                             <span className="transfers__desc">2 пересадки</span>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
             <button className="btn__more">Загрузить еще билеты</button>
         </div>

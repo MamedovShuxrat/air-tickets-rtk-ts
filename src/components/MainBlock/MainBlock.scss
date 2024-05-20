@@ -6,6 +6,7 @@
 .filter__btn {
     padding: 18px;
     border: 1px solid rgb(78, 20, 140);
+    text-align: center;
 
     background: rgb(232, 235, 242);
     color: rgb(78, 20, 140);
@@ -38,6 +39,7 @@
 .filter__lists {
     display: flex;
     padding: 12px 23px;
+    column-gap: 7px;
 
 
     &:last-child {
@@ -90,7 +92,9 @@
 .title__wrapper {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: 25px;
+    column-gap: 20px;
 }
 
 .result__price {
@@ -170,7 +174,7 @@
     display: inline-block;
     width: 100%;
     cursor: pointer;
-    margin-top: 50px;
+    margin: 50px 0 10px;
 }
 
 @media screen and (max-width:768px) {
@@ -205,5 +209,58 @@
 
     .arrow__btn {
         transition: all .3s ease-in-out;
+    }
+}
+
+@media screen and (max-width:768px) {
+    .filter__btn {
+        font-size: 12px;
+        padding: 14px 2px;
+        flex-grow: 1;
+
+    }
+
+
+
+    .result__wrapper {
+        row-gap: 35px;
+    }
+
+    .result__item {
+        padding: 35px 25px 25px;
+    }
+}
+
+@media screen and (max-width:475px) {
+
+    .filter__lists,
+    .tablet__wrapper {
+        padding: 12px;
+    }
+
+    .tablet__wrapper {
+        column-gap: 15px;
+    }
+
+    .filter__item {
+        width: 100px;
+    }
+}
+
+@media screen and (max-width:475px) {
+    .filter__item {
+        width: 75px;
+    }
+
+    .title__wrapper {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+
+    }
+
+    .details__wrapper {
+        flex-wrap: wrap;
+        gap: 10px;
     }
 }
