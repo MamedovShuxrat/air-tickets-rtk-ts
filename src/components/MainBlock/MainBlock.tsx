@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchTickets } from '../../store/slices/tickets'
-import { AppDispatch, RootState } from '../../store/store'
-import ContentLoader from 'react-content-loader'
+import { RootState } from '../../store/store'
 
 
 import './MainBlock.scss'
 import CompanyFilters from '../CompanyFilters/CompanyFilters'
 import TransferFilters from '../TransferFilers/TransferFilters'
+import TicketsLoader from '../Utils/TicketsLoader'
 
 const MainBlock = () => {
     const [isOpen, setIsOpen] = useState(false)
@@ -21,6 +21,21 @@ const MainBlock = () => {
     useEffect(() => {
         dispatch(fetchTickets())
     }, [dispatch])
+
+    const calculateFlightDuration = (startTime: string, endTime: string): string => {
+        const start = new Date(`2022-01-01T${startTime}:00Z`);
+        const end = new Date(`2022-01-01T${endTime}:00Z`);
+
+        if (end <= start) {
+            end.setDate(end.getDate() + 1);
+        }
+
+        const duration = end.getTime() - start.getTime();
+        const hours = Math.floor(duration / (1000 * 60 * 60));
+        const minutes = Math.round((duration / (1000 * 60)) % 60);
+        return `${hours} ч ${minutes} мин`;
+    };
+
     return (
         <div>
             <div className="btn__wrapper">
@@ -49,30 +64,11 @@ const MainBlock = () => {
             </div>
             <div className="result__wrapper">
                 {status === 'loading' &&
-                    <div className='result__item'>
-                        <ContentLoader
-                            speed={23}
-                            width={520}
-                            height={180}
-                            viewBox="0 0 520 180"
-                            backgroundColor="#f5eaea"
-                            foregroundColor="#e8ebf2"
-                        >
-                            <rect x="5" y="17" rx="0" ry="0" width="125" height="30" />
-                            <rect x="122" y="100" rx="0" ry="0" width="1" height="0" />
-                            <rect x="289" y="9" rx="0" ry="0" width="200" height="43" />
-                            <rect x="382" y="44" rx="0" ry="0" width="2" height="0" />
-                            <rect x="394" y="176" rx="0" ry="0" width="10" height="1" />
-                            <rect x="400" y="27" rx="0" ry="0" width="5" height="0" />
-                            <rect x="12" y="111" rx="0" ry="0" width="54" height="24" />
-                            <rect x="12" y="148" rx="0" ry="0" width="54" height="24" />
-                            <rect x="180" y="147" rx="0" ry="0" width="54" height="27" />
-                            <rect x="182" y="110" rx="0" ry="0" width="43" height="24" />
-                            <rect x="299" y="146" rx="0" ry="0" width="164" height="27" />
-                            <rect x="300" y="112" rx="0" ry="0" width="103" height="27" />
-                            <rect x="82" y="110" rx="0" ry="0" width="54" height="27" />
-                            <rect x="82" y="148" rx="0" ry="0" width="54" height="24" />
-                        </ContentLoader>
+                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }} >
+                        <TicketsLoader />
+                        <TicketsLoader />
+                        <TicketsLoader />
+                        <TicketsLoader />
                     </div>}
                 {status === 'error' && <p>Error: {error}</p>}
                 {status === 'success' &&
@@ -80,118 +76,32 @@ const MainBlock = () => {
                         <div className='result__item' key={ticket.id}>
                             <div className="title__wrapper">
                                 <div className="result__price">{ticket.price} {ticket.currency}</div>
-                                <img className="result__logo" src="./public/pobeda.svg" alt="air-company" />
+                                <img className="result__logo" src={`./public/${ticket.company}.svg`} alt="air-company" />
                             </div>
                             <div className="details__wrapper">
                                 <div className="location">
                                     <div className="from-to__wrapper">
-                                        <span className="from">From: {ticket.from} </span>
+                                        <span className="from">{ticket.from} </span>
                                         <span className="dash">-</span>
-                                        <span className="to">To: {ticket.to}</span>
+                                        <span className="to">{ticket.to}</span>
                                     </div>
                                     <div className="from-time__wrapper">
-                                        <span className="from-time">12:00</span>
+                                        <span className="from-time">{ticket.time.startTime}</span>
                                         <span className="dash-active">-</span>
-                                        <span className="from-to"> 16:30</span>
+                                        <span className="from-to"> {ticket.time.endTime}</span>
                                     </div>
-                                    <div className="on-way">
-                                        <span className="on-way__title" >В пути</span>
-                                        <span className="on-way__time">{ticket.duration}</span>
-                                    </div>
-                                    <div className="result__transfers">
-                                        <span className="transfers__title">Пересадки</span>
-                                        <span className="transfers__desc">{ticket.connectionAmount}</span>
-                                    </div>
+                                </div>
+                                <div className="on-way">
+                                    <span className="on-way__title" >В пути</span>
+                                    <span className="on-way__time">{calculateFlightDuration(ticket.time.startTime, ticket.time.endTime)} </span>
+                                </div>
+                                <div className="result__transfers">
+                                    <span className="transfers__title">Пересадки</span>
+                                    <span className="transfers__desc"> {ticket.connectionAmount === 0 ? 'Без пересадок' : ticket.connectionAmount === 1 ? '1 пересадка' : `${ticket.connectionAmount} пересадок`}</span>
                                 </div>
                             </div>
                         </div>
                     ))}
-
-                -
-                <div className="result__item">
-                    <div className="title__wrapper">
-                        <div className="result__price">  5000 RUB</div>
-                        <img className="result__logo" src="./public/pobeda.svg" alt="air-company" />
-                    </div>
-                    <div className="details__wrapper">
-                        <div className="location">
-                            <div className="from-to__wrapper">
-                                <span className="from">SVO</span>
-                                <span className="dash">-</span>
-                                <span className="to">LED</span>
-                            </div>
-                            <div className="from-time__wrapper">
-                                <span className="from-time">12:00</span>
-                                <span className="dash-active">-</span>
-                                <span className="from-to"> 16:30</span>
-                            </div>
-                        </div>
-                        <div className="on-way">
-                            <span className="on-way__title" >В пути</span>
-                            <span className="on-way__time">4 ч 30 мин</span>
-                        </div>
-                        <div className="result__transfers">
-                            <span className="transfers__title">Пересадки</span>
-                            <span className="transfers__desc">1 пересадка</span>
-                        </div>
-                    </div>
-                </div>
-                <div className="result__item">
-                    <div className="title__wrapper">
-                        <div className="result__price">21 500 RUB</div>
-                        <img className="result__logo" src="./public/red-wings.svg" alt="air-company" />
-                    </div>
-                    <div className="details__wrapper">
-                        <div className="location">
-                            <div className="from-to__wrapper">
-                                <span className="from">SVO</span>
-                                <span className="dash">-</span>
-                                <span className="to">LED</span>
-                            </div>
-                            <div className="from-time__wrapper">
-                                <span className="from-time">14:00</span>
-                                <span className="dash-active">-</span>
-                                <span className="from-to"> 16:00</span>
-                            </div>
-                        </div>
-                        <div className="on-way">
-                            <span className="on-way__title" >В пути</span>
-                            <span className="on-way__time">2 ч 0 мин</span>
-                        </div>
-                        <div className="result__transfers">
-                            <span className="transfers__title">Пересадки</span>
-                            <span className="transfers__desc">Без пересадок</span>
-                        </div>
-                    </div>
-                </div>
-                <div className="result__item">
-                    <div className="title__wrapper">
-                        <div className="result__price">23 995 RUB</div>
-                        <img className="result__logo" src="./public/s7.svg" alt="air-company" />
-                    </div>
-                    <div className="details__wrapper">
-                        <div className="location">
-                            <div className="from-to__wrapper">
-                                <span className="from">SVO</span>
-                                <span className="dash">-</span>
-                                <span className="to">LED</span>
-                            </div>
-                            <div className="from-time__wrapper">
-                                <span className="from-time">04:50 </span>
-                                <span className="dash-active">-</span>
-                                <span className="from-to"> 13:30</span>
-                            </div>
-                        </div>
-                        <div className="on-way">
-                            <span className="on-way__title" >В пути</span>
-                            <span className="on-way__time">8 ч 40 мин</span>
-                        </div>
-                        <div className="result__transfers">
-                            <span className="transfers__title">Пересадки</span>
-                            <span className="transfers__desc">2 пересадки</span>
-                        </div>
-                    </div>
-                </div>
             </div>
             <button className="btn__more">Загрузить еще билеты</button>
         </div>
