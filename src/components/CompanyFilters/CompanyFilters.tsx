@@ -1,9 +1,16 @@
 import React, { useState } from 'react'
 import '../Sidebar/Sidebar.scss'
 
-const CompanyFilters = ({ className }) => {
+interface CompanyFiltersProps {
+    className?: string
+}
+interface CompanyStates {
+    name: string
+}
+
+const CompanyFilters: React.FC<CompanyFiltersProps> = ({ className }) => {
     const classToUse = className || "company"
-    const [company, setCompany] = useState([
+    const [company, setCompany] = useState<CompanyStates[]>([
         {
             name: 'Победа'
         },
@@ -24,8 +31,6 @@ const CompanyFilters = ({ className }) => {
                         className="checkbox-radio"
                         type="checkbox"
                         name={`tranferCompany-${item.name}`}
-                    // checked={transferFilters[`transfer${item.name}`]}
-                    // onChange={handleCheckboxChange}
                     />
                     <span className="checkbox__name"> {item.name}</span>
                 </label>

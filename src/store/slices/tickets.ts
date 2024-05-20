@@ -3,12 +3,12 @@ import { Ticket } from "../../types/Types"
 import axios from "axios"
 
 
-export const fetchTickets = createAsyncThunk<Ticket[]>(
-    'tickets/fetchTikets', async () => {
-        const response = await axios.get('https://6ed34cebf4fa44db.mokky.dev/feilds')
-        return response.data
-    }
-)
+export const fetchTickets = createAsyncThunk<Ticket[]>('tickets/fetchTickets', async () => {
+    const response = await axios.get('https://6ed34cebf4fa44db.mokky.dev/feilds')
+    console.log(response);
+    return response.data
+
+})
 
 interface TicketState {
     tickets: Ticket[]
