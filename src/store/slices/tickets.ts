@@ -1,14 +1,16 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { Ticket } from "../../types/Types"
-import axios from "axios"
+import { Ticket } from "../../types/types"
+import axios, { AxiosResponse } from "axios"
 
 
-export const fetchTickets = createAsyncThunk<Ticket[]>('tickets/fetchTickets', async () => {
-    const response = await axios.get('https://6ed34cebf4fa44db.mokky.dev/feilds')
-    console.log(response);
-    return response.data
 
-})
+export const fetchTickets = createAsyncThunk<Ticket[]>(
+    'tickets/fetchTickets',
+    async () => {
+        const response: AxiosResponse<Ticket[]> = await axios.get('https://6ed34cebf4fa44db.mokky.dev/feilds')
+        return response.data
+    }
+)
 
 interface TicketState {
     tickets: Ticket[]

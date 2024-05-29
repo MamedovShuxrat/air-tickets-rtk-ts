@@ -1,6 +1,6 @@
 import TransferFilters from '../TransferFilers/TransferFilters'
 import CompanyFilters from '../CompanyFilters/CompanyFilters'
-import "./Sidebar.scss";
+import "./Sidebar.scss"
 
 const Sidebar = () => {
     return (

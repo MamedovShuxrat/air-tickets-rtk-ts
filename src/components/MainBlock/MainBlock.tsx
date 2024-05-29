@@ -11,37 +11,77 @@ import TicketsLoader from '../Utils/TicketsLoader'
 
 const MainBlock = () => {
     const [isOpen, setIsOpen] = useState(false)
+    const [displayedTickets, setDisplayedTickets] = useState(4)
+    const [filter, setFilter] = useState('cheapest')
+
     const handleOpenClose = () => {
         setIsOpen(!isOpen)
     }
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
+
     const { tickets, error, status } = useSelector((state: RootState) => state.tickets)
+    const { selectedCompanies, selectedTransfers } = useSelector((state: RootState) => state.filters)
 
     useEffect(() => {
         dispatch(fetchTickets())
     }, [dispatch])
 
     const calculateFlightDuration = (startTime: string, endTime: string): string => {
-        const start = new Date(`2022-01-01T${startTime}:00Z`);
-        const end = new Date(`2022-01-01T${endTime}:00Z`);
+        const start = new Date(`2022-01-01T${startTime}:00Z`)
+        const end = new Date(`2022-01-01T${endTime}:00Z`)
 
         if (end <= start) {
-            end.setDate(end.getDate() + 1);
+            end.setDate(end.getDate() + 1)
         }
 
-        const duration = end.getTime() - start.getTime();
-        const hours = Math.floor(duration / (1000 * 60 * 60));
-        const minutes = Math.round((duration / (1000 * 60)) % 60);
-        return `${hours} ч ${minutes} мин`;
-    };
+        const duration = end.getTime() - start.getTime()
+        const hours = Math.floor(duration / (1000 * 60 * 60))
+        const minutes = Math.round((duration / (1000 * 60)) % 60)
+        return `${hours} ч ${minutes} мин`
+    }
+
+    const handleLoadMoreTickets = () => {
+        setDisplayedTickets((prev) => prev + 4)
+    }
+
+
+
+    const filteredTickets = tickets.filter((ticket) => {
+        const companyMatch = selectedCompanies.length === 0 || selectedCompanies.includes(ticket.company)
+        const transferMatch = selectedTransfers.length === 0 || selectedTransfers.includes(ticket.connectionAmount)
+        return companyMatch && transferMatch
+    })
+
+    filteredTickets.sort((a, b) => {
+        if (filter === 'cheapest') {
+            return a.price - b.price
+        } else if (filter === 'faster') {
+            return a.duration - b.duration
+        } else if (filter === 'optimal') {
+            return a.price / a.duration - b.price / b.duration
+        }
+        return 0
+    })
 
     return (
         <div>
             <div className="btn__wrapper">
-                <div className="filter__btn active">Самый дешевый</div>
-                <div className="filter__btn">Самый быстрый</div>
-                <div className="filter__btn">Самый оптимальный</div>
+                <div
+                    className={`filter__btn ${filter === 'cheapest' ? 'active' : ''}`}
+                    onClick={() => setFilter('cheapest')}>
+                    Самый дешевый
+                </div>
+                <div
+                    className={`filter__btn ${filter === 'fastest' ? 'active' : ''}`}
+                    onClick={() => setFilter('fastest')}>
+                    Самый быстрый
+                </div>
+                <div
+                    className={`filter__btn ${filter === 'optimal' ? 'active' : ''}`}
+                    onClick={() => setFilter('optimal')}>
+                    Самый оптимальный
+                </div>
             </div>
             <div className="filter__wrapper">
                 <div className="filter__menu">
@@ -55,11 +95,12 @@ const MainBlock = () => {
                             <img onClick={handleOpenClose} className='arrow__btn' style={{ transform: isOpen ? 'rotate(180deg)' : 'none' }} src='./public/arrow.svg' alt='arrow' />
                         </div>
                     </div>
-                    {isOpen &&
+                    {isOpen && (
                         <div className='tablet__wrapper'>
                             <CompanyFilters className="tablet" />
                             <TransferFilters className="tablet" />
-                        </div>}
+                        </div>
+                    )}
                 </div>
             </div>
             <div className="result__wrapper">
@@ -72,8 +113,8 @@ const MainBlock = () => {
                     </div>}
                 {status === 'error' && <p>Error: {error}</p>}
                 {status === 'success' &&
-                    tickets.map((ticket) => (
-                        <div className='result__item' key={ticket.id}>
+                    filteredTickets.slice(0, displayedTickets).map((ticket) => (
+                        <div className="result__item" key={ticket.id}>
                             <div className="title__wrapper">
                                 <div className="result__price">{ticket.price} {ticket.currency}</div>
                                 <img className="result__logo" src={`./public/${ticket.company}.svg`} alt="air-company" />
@@ -103,9 +144,9 @@ const MainBlock = () => {
                         </div>
                     ))}
             </div>
-            <button className="btn__more">Загрузить еще билеты</button>
+            <button onClick={handleLoadMoreTickets} className="btn__more">Загрузить еще билеты</button>
         </div>
     )
 }
 
-export default MainBlock
+export default MainBlock 

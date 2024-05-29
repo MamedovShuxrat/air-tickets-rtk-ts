@@ -14,6 +14,14 @@
     font-weight: 700;
     line-height: 19px;
     cursor: pointer;
+    transition: all .3s ease-in-out;
+
+    &:hover {
+        color: rgb(78, 20, 140);
+        background: rgb(247, 249, 247);
+        box-shadow: 0px 4px 10px 0px rgba(78, 20, 140, 0.25);
+        border: 1px solid rgba(78, 20, 140, 0.25);
+    }
 
     &:nth-child(1) {
         border-radius: 10px 0px 0px 10px;
@@ -104,6 +112,11 @@
     line-height: 39px;
 }
 
+.result__logo {
+    max-width: 180px;
+    max-height: 60px;
+}
+
 .details__wrapper {
     display: flex;
     justify-content: space-between;
@@ -169,12 +182,21 @@
     line-height: 29px;
     border-radius: 10px;
     background: rgb(78, 20, 140);
+    border: 1px solid rgb(78, 20, 140);
 
     border: none;
     display: inline-block;
     width: 100%;
     cursor: pointer;
     margin: 50px 0 10px;
+    transition: all .3s ease-in-out;
+
+    &:hover {
+        color: rgb(78, 20, 140);
+        background: rgb(247, 249, 247);
+        box-shadow: 0px 4px 10px 0px rgba(78, 20, 140, 0.25);
+        border: 1px solid rgba(78, 20, 140, 0.25);
+    }
 }
 
 @media screen and (max-width:768px) {
