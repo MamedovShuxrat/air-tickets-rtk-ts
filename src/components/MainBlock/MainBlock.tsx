@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
 import { fetchTickets } from '../../store/slices/tickets'
-import { RootState } from '../../store/store'
+import { RootState, useAppDispatch, useAppSelector } from '../../store/store'
 
 
 import './MainBlock.scss'
@@ -18,10 +17,9 @@ const MainBlock = () => {
         setIsOpen(!isOpen)
     }
 
-    const dispatch = useDispatch()
-
-    const { tickets, error, status } = useSelector((state: RootState) => state.tickets)
-    const { selectedCompanies, selectedTransfers } = useSelector((state: RootState) => state.filters)
+    const dispatch = useAppDispatch()
+    const { tickets, error, status } = useAppSelector((state: RootState) => state.tickets)
+    const { selectedCompanies, selectedTransfers } = useAppSelector((state: RootState) => state.filters)
 
     useEffect(() => {
         dispatch(fetchTickets())
@@ -40,18 +38,18 @@ const MainBlock = () => {
         const minutes = Math.round((duration / (1000 * 60)) % 60)
         return `${hours} ч ${minutes} мин`
     }
+    console.log(calculateFlightDuration('20:00', '2:00'))
 
     const handleLoadMoreTickets = () => {
         setDisplayedTickets((prev) => prev + 4)
     }
 
-
-
     const filteredTickets = tickets.filter((ticket) => {
-        const companyMatch = selectedCompanies.length === 0 || selectedCompanies.includes(ticket.company)
-        const transferMatch = selectedTransfers.length === 0 || selectedTransfers.includes(ticket.connectionAmount)
-        return companyMatch && transferMatch
-    })
+        const companyMatch = selectedCompanies.length === 0 || selectedCompanies.includes(ticket.company);
+        const transferMatch = selectedTransfers.length === 0 || (ticket.connectionAmount !== null && selectedTransfers.includes(ticket.connectionAmount));
+        return companyMatch && transferMatch;
+    });
+
 
     filteredTickets.sort((a, b) => {
         if (filter === 'cheapest') {
