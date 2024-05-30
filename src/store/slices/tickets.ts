@@ -2,9 +2,6 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { Ticket } from "../../types/types"
 import axios from "axios"
 
-
-
-
 export const fetchTickets = createAsyncThunk<Ticket[]>(
     'tickets/fetchTickets',
     async () => {
@@ -12,7 +9,6 @@ export const fetchTickets = createAsyncThunk<Ticket[]>(
         return response.data
     }
 )
-
 
 interface TicketState {
     tickets: Ticket[]

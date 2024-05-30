@@ -42,28 +42,27 @@ const MainBlock = () => {
 
 
     const calculateFlightDuration = (startTime: string, endTime: string) => {
-        const start = new Date(`2022-01-01T${startTime}:00Z`);
-        let end = new Date(`2022-01-01T${endTime}:00Z`);
+        const start = new Date(`2022-01-01T${startTime}:00Z`)
+        let end = new Date(`2022-01-01T${endTime}:00Z`)
         if (end <= start) {
-            end.setDate(end.getDate() + 1);
+            end.setDate(end.getDate() + 1)
         }
 
-        const duration = end.getTime() - start.getTime();
-        const hours = Math.floor(duration / (1000 * 60 * 60));
-        const minutes = Math.floor((duration / (1000 * 60)) % 60);
-        return `${hours} ч ${minutes} мин`;
-    };
-    console.log(calculateFlightDuration('20:00', '02:00')); // Output: "6 ч 0 мин"
+        const duration = end.getTime() - start.getTime()
+        const hours = Math.floor(duration / (1000 * 60 * 60))
+        const minutes = Math.floor((duration / (1000 * 60)) % 60)
+        return `${hours} ч ${minutes} мин`
+    }
 
     const handleLoadMoreTickets = () => {
         setDisplayedTickets((prev) => prev + 4)
     }
 
     const filteredTickets = tickets.filter((ticket) => {
-        const companyMatch = selectedCompanies.length === 0 || selectedCompanies.includes(ticket.company);
-        const transferMatch = selectedTransfers.length === 0 || (ticket.connectionAmount !== null && selectedTransfers.includes(ticket.connectionAmount));
-        return companyMatch && transferMatch;
-    });
+        const companyMatch = selectedCompanies.length === 0 || selectedCompanies.includes(ticket.company)
+        const transferMatch = selectedTransfers.length === 0 || (ticket.connectionAmount !== null && selectedTransfers.includes(ticket.connectionAmount))
+        return companyMatch && transferMatch
+    })
 
 
     filteredTickets.sort((a, b) => {
@@ -105,7 +104,7 @@ const MainBlock = () => {
                         </div>
                         <div className="filter__list">
                             <span className="filter__item">{isOpen ? 'Закрыть настройки' : 'Открыть настройки'} </span>
-                            <img onClick={handleOpenClose} className='arrow__btn' style={{ transform: isOpen ? 'rotate(180deg)' : 'none' }} src='./public/arrow.svg' alt='arrow' />
+                            <img onClick={handleOpenClose} className='arrow__btn' style={{ transform: isOpen ? 'rotate(180deg)' : 'none' }} src='/arrow.svg' alt='arrow' />
                         </div>
                     </div>
                     {isOpen && (
@@ -125,8 +124,10 @@ const MainBlock = () => {
                         <TicketsLoader />
                     </div>}
                 {status === 'error' && <p>Error: {error}</p>}
-                {status === 'success' &&
-                    filteredTickets.slice(0, displayedTickets).map((ticket) => (
+                {status === 'success' && filteredTickets.slice(0, displayedTickets).map((ticket) => {
+                    const formattedStartTime = ticket.time.startTime.padStart(5, '0').slice(0, 5)
+                    const formattedEndTime = ticket.time.endTime.padStart(5, '0').slice(0, 5)
+                    return (
                         <div className="result__item" key={ticket.id}>
                             <div className="title__wrapper">
                                 <div className="result__price">{ticket.price} {ticket.currency}</div>
@@ -140,15 +141,15 @@ const MainBlock = () => {
                                         <span className="to">{ticket.to}</span>
                                     </div>
                                     <div className="from-time__wrapper">
-                                        <span className="from-time">{ticket.time.startTime}</span>
+                                        <span className="from-time">{formattedStartTime}</span>
                                         <span className="dash-active">-</span>
-                                        <span className="from-to"> {ticket.time.endTime}</span>
+                                        <span className="from-to"> {formattedEndTime}</span>
                                     </div>
                                 </div>
                                 <div className="on-way">
                                     <span className="on-way__title" >В пути</span>
                                     <span className="on-way__time">
-                                        {calculateFlightDuration(ticket.time.startTime, ticket.time.endTime)}
+                                        {calculateFlightDuration(formattedStartTime, formattedEndTime)}
                                     </span>
                                 </div>
                                 <div className="result__transfers">
@@ -157,7 +158,8 @@ const MainBlock = () => {
                                 </div>
                             </div>
                         </div>
-                    ))}
+                    )
+                })}
             </div>
             <button onClick={handleLoadMoreTickets} className="btn__more">Загрузить еще билеты</button>
         </div>
