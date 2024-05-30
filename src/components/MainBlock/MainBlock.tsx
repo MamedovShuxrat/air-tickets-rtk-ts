@@ -25,20 +25,35 @@ const MainBlock = () => {
         dispatch(fetchTickets())
     }, [dispatch])
 
-    const calculateFlightDuration = (startTime: string, endTime: string): string => {
-        const start = new Date(`2022-01-01T${startTime}:00Z`)
-        const end = new Date(`2022-01-01T${endTime}:00Z`)
+    // const calculateFlightDuration = (startTime: string, endTime: string): string => {
+    //     const start = new Date(`2022-01-01T${startTime}:00Z`)
+    //     const end = new Date(`2022-01-01T${endTime}:00Z`)
 
+    //     if (end <= start) {
+    //         end.setDate(end.getDate() + 1)
+    //     }
+
+    //     const duration = end.getTime() - start.getTime()
+    //     const hours = Math.floor(duration / (1000 * 60 * 60))
+    //     const minutes = Math.round((duration / (1000 * 60)) % 60)
+    //     return `${hours} ч ${minutes} мин`
+    // }
+    // console.log(calculateFlightDuration('20:00', '2:00'))
+
+
+    const calculateFlightDuration = (startTime: string, endTime: string) => {
+        const start = new Date(`2022-01-01T${startTime}:00Z`);
+        let end = new Date(`2022-01-01T${endTime}:00Z`);
         if (end <= start) {
-            end.setDate(end.getDate() + 1)
+            end.setDate(end.getDate() + 1);
         }
 
-        const duration = end.getTime() - start.getTime()
-        const hours = Math.floor(duration / (1000 * 60 * 60))
-        const minutes = Math.round((duration / (1000 * 60)) % 60)
-        return `${hours} ч ${minutes} мин`
-    }
-    console.log(calculateFlightDuration('20:00', '2:00'))
+        const duration = end.getTime() - start.getTime();
+        const hours = Math.floor(duration / (1000 * 60 * 60));
+        const minutes = Math.floor((duration / (1000 * 60)) % 60);
+        return `${hours} ч ${minutes} мин`;
+    };
+    console.log(calculateFlightDuration('20:00', '02:00')); // Output: "6 ч 0 мин"
 
     const handleLoadMoreTickets = () => {
         setDisplayedTickets((prev) => prev + 4)
@@ -115,7 +130,7 @@ const MainBlock = () => {
                         <div className="result__item" key={ticket.id}>
                             <div className="title__wrapper">
                                 <div className="result__price">{ticket.price} {ticket.currency}</div>
-                                <img className="result__logo" src={`./public/${ticket.company}.svg`} alt="air-company" />
+                                <img className="result__logo" src={`${ticket.company}.svg`} alt="air-company" />
                             </div>
                             <div className="details__wrapper">
                                 <div className="location">
@@ -132,7 +147,9 @@ const MainBlock = () => {
                                 </div>
                                 <div className="on-way">
                                     <span className="on-way__title" >В пути</span>
-                                    <span className="on-way__time">{calculateFlightDuration(ticket.time.startTime, ticket.time.endTime)} </span>
+                                    <span className="on-way__time">
+                                        {calculateFlightDuration(ticket.time.startTime, ticket.time.endTime)}
+                                    </span>
                                 </div>
                                 <div className="result__transfers">
                                     <span className="transfers__title">Пересадки</span>

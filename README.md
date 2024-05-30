@@ -8,3 +8,5 @@
 - Проект написан на TypeScript:
 
 #### Проект использует Redux Toolkit, не использует стандартный Redux с createStore, не использует легаси-методы connect, mapStateToProps, mapDispatchToProps.
+
+### Готовый резулать можно визуально увидеть [по этой ссылке](https://air-tickets-rtk-ts.vercel.app/)

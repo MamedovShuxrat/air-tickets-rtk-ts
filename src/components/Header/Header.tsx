@@ -6,7 +6,7 @@ const Header = () => {
             <div className="container">
                 <div className="header__inner">
                     <div className="wrapper">
-                        <img className="logo" src="./public/plane.svg" alt="plane" />
+                        <img className="logo" src="/plane.svg" alt="plane" />
                         <h1 className="title">Поиск авиабилетов</h1>
                     </div>
                 </div>
