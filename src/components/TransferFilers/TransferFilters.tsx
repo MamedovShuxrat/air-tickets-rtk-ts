@@ -8,6 +8,18 @@ interface TransferFiltersProps {
     className?: string
 }
 
+type checkbox = {
+    id: number,
+    name: string
+}
+
+const checkboxes: checkbox[] = [
+    { id: 0, name: 'Без пересадок' },
+    { id: 1, name: '1 пересадка' },
+    { id: 2, name: '2 пересадки' },
+    { id: 3, name: '3 пересадки' },
+]
+
 const TransferFilters: React.FC<TransferFiltersProps> = ({ className }) => {
     const classToUse = className || 'transfers'
 
@@ -31,46 +43,18 @@ const TransferFilters: React.FC<TransferFiltersProps> = ({ className }) => {
     return (
         <div className={classToUse}>
             <h3 className="sidebar__title">Количество пересадок</h3>
-            <label className="checkbox__wrapper">
-                <input
-                    className="checkbox"
-                    type="checkbox"
-                    name="transfer0"
-                    checked={selectedTransfers.includes(0)}
-                    onChange={handleCheckboxChange}
-                />
-                <span className="checkbox__name">Без пересадок</span>
-            </label>
-            <label className="checkbox__wrapper">
-                <input
-                    className="checkbox"
-                    type="checkbox"
-                    name="transfer1"
-                    checked={selectedTransfers.includes(1)}
-                    onChange={handleCheckboxChange}
-                />
-                <span className="checkbox__name">1 пересадка</span>
-            </label>
-            <label className="checkbox__wrapper">
-                <input
-                    className="checkbox"
-                    type="checkbox"
-                    name="transfer2"
-                    checked={selectedTransfers.includes(2)}
-                    onChange={handleCheckboxChange}
-                />
-                <span className="checkbox__name">2 пересадки</span>
-            </label>
-            <label className="checkbox__wrapper">
-                <input
-                    className="checkbox"
-                    type="checkbox"
-                    name="transfer3"
-                    checked={selectedTransfers.includes(3)}
-                    onChange={handleCheckboxChange}
-                />
-                <span className="checkbox__name">3 пересадки</span>
-            </label>
+            {checkboxes.map((checkbox) => (
+                <label className="checkbox__wrapper" key={checkbox.id}>
+                    <input
+                        className="checkbox"
+                        type="checkbox"
+                        name={`transfer${checkbox.id}`}
+                        checked={selectedTransfers.includes(checkbox.id)}
+                        onChange={handleCheckboxChange}
+                    />
+                    <span className="checkbox__name">{checkbox.name}</span>
+                </label>
+            ))}
         </div>
     )
 }

@@ -9,11 +9,11 @@ import TransferFilters from '../TransferFilers/TransferFilters'
 import TicketsLoader from '../Utils/TicketsLoader'
 
 const MainBlock = () => {
-    const [isOpen, setIsOpen] = useState(false)
-    const [displayedTickets, setDisplayedTickets] = useState(4)
-    const [filter, setFilter] = useState('cheapest')
+    const [isOpen, setIsOpen] = useState<boolean>(false)
+    const [displayedTickets, setDisplayedTickets] = useState<number>(4)
+    const [filter, setFilter] = useState<string>('cheapest')
 
-    const handleOpenClose = () => {
+    const handleOpenClose = (): void => {
         setIsOpen(!isOpen)
     }
 
@@ -38,7 +38,7 @@ const MainBlock = () => {
         return `${hours} ч ${minutes} мин`
     }
 
-    const handleLoadMoreTickets = () => {
+    const handleLoadMoreTickets = (): void => {
         setDisplayedTickets((prev) => prev + 4)
     }
 
@@ -145,7 +145,12 @@ const MainBlock = () => {
                     )
                 })}
             </div>
-            <button onClick={handleLoadMoreTickets} className="btn__more">Загрузить еще билеты</button>
+            <button
+                onClick={handleLoadMoreTickets}
+                className={displayedTickets >= filteredTickets.length ? "btn__more disabled" : "btn__more"}
+            >
+                Загрузить еще билеты
+            </button>
         </div>
     )
 }

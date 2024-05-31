@@ -26,7 +26,6 @@
 
 .checkbox__wrapper {
     display: flex;
-    // align-items: center;
     margin-left: 16px;
     margin-bottom: 20px;
     position: relative;
@@ -50,7 +49,7 @@
 }
 
 .checkbox[type="checkbox"]:checked {
-    background: url('../../../public/checked.svg') center / cover no-repeat;
+    background: url('/checked.svg') center / cover no-repeat;
 }
 
 .checkbox-radio {
